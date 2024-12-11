@@ -26,10 +26,8 @@ func getIntPairs() ([]int, []int) {
 
 	for scanner.Scan() {
 		numPair := scanner.Text()
-		splitPair := strings.Split(numPair, "   ")
+		splitPair := strings.Fields(numPair)
 		first, second := splitPair[0], splitPair[1]
-		first = strings.TrimSpace(first)
-		second = strings.TrimSpace(second)
 		firstInt, err := strconv.Atoi(first)
 		check(err)
 		secondInt, err := strconv.Atoi(second)
@@ -40,7 +38,7 @@ func getIntPairs() ([]int, []int) {
 	return firsts, seconds
 }
 
-func calculateDistance() {
+func calculateDistance() int {
 	firsts, seconds := getIntPairs()
 	sort.Ints(firsts)
 	sort.Ints(seconds)
@@ -48,10 +46,10 @@ func calculateDistance() {
 	for i := range firsts {
 		distance += int(math.Abs(float64(firsts[i] - seconds[i])))
 	}
-	fmt.Print(distance)
+	return distance
 }
 
-func calculateSimilarityScore() {
+func calculateSimilarityScore() int {
 	firsts, seconds := getIntPairs()
 	similarityScore := 0
 	for i := range firsts {
@@ -64,9 +62,11 @@ func calculateSimilarityScore() {
 		}
 		similarityScore += value * count
 	}
-	println(similarityScore)
+	return similarityScore
 }
 
 func main() {
-	calculateSimilarityScore()
+	distance := calculateDistance()
+	similarityScore := calculateSimilarityScore()
+	fmt.Print("Distance: ", distance, "\n", "Similarity Score: ", similarityScore)
 }
